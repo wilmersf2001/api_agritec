@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -26,5 +27,10 @@ class AuthController extends Controller
     {
         Auth::user()->tokens()->delete();
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function getLoggedInUser()
+    {
+        return new UserResource(auth()->user());
     }
 }
