@@ -22,7 +22,6 @@ class UserResource extends JsonResource
             'usuario' => $this->usuario,
             'email' => $this->email,
             'role' => $this->role,
-            'token' => $this->when($this->token, $this->token),
         ];
     }
 }

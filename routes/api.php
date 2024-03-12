@@ -17,9 +17,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/users', [UserController::class, 'store']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user-logged', [AuthController::class, 'getLoggedInUser']);
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::put('/users/{user}', [UserController::class, 'update']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
     /* Route::apiResource('users', 'UserController'); */
     Route::post('/logout', [AuthController::class, 'logout']);
 });
