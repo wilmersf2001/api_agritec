@@ -18,8 +18,8 @@ class ProductFactory extends Factory
     {
         return [
             'nombre' => $this->faker->name,
-            'descripcion' => $this->faker->text,
-            'precio' => $this->faker->randomFloat(2, 1, 1000),
+            'descripcion' => $this->faker->sentence(),
+            'precio' => $this->faker->randomFloat(2, 15000, 30000),
             'cantidad' => $this->faker->numberBetween(1, 100),
             'ruta_imagen' => $this->faker->imageUrl(),
             'user_id' => $this->faker->numberBetween(1, 3),

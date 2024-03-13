@@ -21,8 +21,8 @@ class ProductResource extends JsonResource
             'precio' => $this->precio,
             'cantidad' => $this->cantidad,
             'ruta_imagen' => $this->ruta_imagen,
-            'user_id' => $this->user_id,
-            'category_id' => $this->category_id,
+            'usuario' => new UserResource($this->user),
+            'category' => new CategoryResource($this->category),
             'created_at' => $this->created_at,
         ];
     }
