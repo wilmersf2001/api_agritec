@@ -36,4 +36,9 @@ class CategoryController extends Controller
         $category->delete();
         return new CategoryResource($category);
     }
+
+    public function products(Category $category)
+    {
+        return $category->products;
+    }
 }

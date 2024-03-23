@@ -21,6 +21,12 @@ use App\Http\Controllers\ProductController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/users', [UserController::class, 'store']);
 
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{category}', [CategoryController::class, 'show']);
+Route::get('/categories/{category}/products', [CategoryController::class, 'products']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //RUTAS USUARIOS
     Route::get('/user-logged', [AuthController::class, 'getLoggedInUser']);
@@ -30,14 +36,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
     /* Route::apiResource('users', 'UserController'); */
     //RUTAS CATEGORIAS
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     //RUTAS PRODUCTOS
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
