@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Business\AbilitiesResolver;
 use Illuminate\Support\Facades\Storage;
 use App\Utils\Constants;
 
@@ -26,6 +28,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        AbilitiesResolver::autorize('products.store');
         $imagen = $request->file('foto_producto');
         $ruta_imagen = 'http://127.0.0.1:8000/storage/db_robots/' . $request->nombre . '.' . $imagen->getClientOriginalExtension();
 
@@ -51,6 +54,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        AbilitiesResolver::autorize('products.update');
         $product->update([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
@@ -67,6 +71,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        AbilitiesResolver::autorize('products.destroy');
         $product->delete();
         return new ProductResource($product);
     }

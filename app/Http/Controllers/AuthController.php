@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\AbilitiesResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
@@ -16,8 +17,10 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $token = Auth::user()->createToken('authToken')->plainTextToken;
-            return response()->json(['token' => $token]);
+            $user = Auth::user();
+            $abilities = AbilitiesResolver::resolve($user);
+            $token = $user->createToken('authToken', $abilities);
+            return response()->json(['token' => $token->plainTextToken]);
         }
 
         return response()->json(['error' => 'UnAuthorised'], 401);
