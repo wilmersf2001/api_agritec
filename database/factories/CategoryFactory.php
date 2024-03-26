@@ -19,6 +19,7 @@ class CategoryFactory extends Factory
         return [
             'nombre' => $this->faker->name,
             'descripcion' => $this->faker->text,
+            'icono' => '',
         ];
     }
 }
