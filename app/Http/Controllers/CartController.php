@@ -30,6 +30,7 @@ class CartController extends Controller
             [
                 'id' => $product->id,
                 'name' => $product->nombre,
+                'options' => [$product->ruta_imagen], // 'color' => 'red', 'size' => 'large
                 'qty' => request('qty'),
                 'price' => $product->precio,
                 'weight' => 0,
@@ -60,5 +61,13 @@ class CartController extends Controller
         Cart::remove($rowId);
         Cart::store(Auth::user()->email);
         return Cart::content();
+    }
+
+    public function totalCart()
+    {
+        /* AbilitiesResolver::autorize('cart.totalCart'); */
+        Cart::restore(Auth::user()->email);
+        Cart::store(Auth::user()->email);
+        return Cart::total();
     }
 }

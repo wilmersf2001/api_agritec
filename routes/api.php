@@ -25,6 +25,7 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
+Route::get('/products-random', [ProductController::class, 'getProductsRandom']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::get('/categories/{category}/products', [CategoryController::class, 'products']);
@@ -50,6 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cart/{product}', [CartController::class, 'store']);
     Route::put('/cart/{rowId}', [CartController::class, 'update']);
     Route::delete('/cart/{rowId}', [CartController::class, 'destroy']);
+    Route::get('/cart-total', [CartController::class, 'totalCart']);
     //RUTAS ORDENES
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);

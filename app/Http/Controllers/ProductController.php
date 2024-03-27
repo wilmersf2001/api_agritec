@@ -75,4 +75,10 @@ class ProductController extends Controller
         $product->delete();
         return new ProductResource($product);
     }
+
+    public function getProductsRandom()
+    {
+        $productos = Product::inRandomOrder()->take(10)->get();
+        return ProductResource::collection($productos);
+    }
 }
