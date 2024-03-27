@@ -29,20 +29,36 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         AbilitiesResolver::autorize('products.store');
-        $imagen = $request->file('foto_producto');
-        $ruta_imagen = 'http://127.0.0.1:8000/storage/db_robots/' . $request->nombre . '.' . $imagen->getClientOriginalExtension();
+        $imagen_producto = $request->file('foto_producto');
+        $imagen_factura = $request->file('foto_factura');
 
         $product = Product::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
             'cantidad' => $request->cantidad,
-            'ruta_imagen' => $ruta_imagen,
+            'ruta_imagen' => "",
+            'ruta_factura' => "",
             'user_id' => $request->user_id,
             'category_id' =>  $request->category_id,
         ]);
 
+        $ruta_imagen_producto = 'http://127.0.0.1:8000/storage/db_robots/' . $product->id . '.' . $imagen_producto->getClientOriginalExtension();
+        $ruta_imagen_factura = 'http://127.0.0.1:8000/storage/db_facturas/' . $product->id . '.' . $imagen_factura->getClientOriginalExtension();
+
+        if ($request->file('foto_factura')) {
+            $product->update([
+                'ruta_imagen' => $ruta_imagen_producto,
+                'ruta_factura' => $ruta_imagen_factura,
+            ]);
+        } else {
+            $product->update([
+                'ruta_imagen' => $ruta_imagen_producto,
+            ]);
+        }
+
         $this->uploadImage($request->file('foto_producto'), $product->id, Constants::RUTA_FOTO);
+        $this->uploadImage($request->file('foto_factura'), $product->id, Constants::RUTA_FACTURA);
 
         return new ProductResource($product);
     }
@@ -65,6 +81,7 @@ class ProductController extends Controller
         ]);
 
         $this->uploadImage($request->file('foto_producto'), $product->id, Constants::RUTA_FOTO);
+        $this->uploadImage($request->file('foto_factura'), $product->id, Constants::RUTA_FACTURA);
 
         return new ProductResource($product);
     }

@@ -17,6 +17,7 @@ class Product extends Model
         'precio',
         'cantidad',
         'ruta_imagen',
+        'ruta_factura',
         'user_id',
         'category_id',
     ];

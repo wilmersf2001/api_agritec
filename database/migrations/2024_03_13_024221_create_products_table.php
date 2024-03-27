@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
             $table->string('ruta_imagen');
+            $table->string('ruta_factura')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('category_id');
             $table->foreign('user_id')->references('id')->on('tb_usuario')->onUpdate('cascade')->onDelete('cascade');
