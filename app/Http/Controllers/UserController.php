@@ -24,7 +24,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        AbilitiesResolver::autorize('users.store');
         $user = User::create($request->all());
         return new UserResource($user);
     }

@@ -33,6 +33,7 @@ class ProductController extends Controller
         $imagen_factura = $request->file('foto_factura');
 
         $product = Product::create([
+            'codigo' => 'PRD' . time(), // 'PRD' . time() . rand(1, 1000) . 'PRD
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
@@ -44,9 +45,9 @@ class ProductController extends Controller
         ]);
 
         $ruta_imagen_producto = 'http://127.0.0.1:8000/storage/db_robots/' . $product->id . '.' . $imagen_producto->getClientOriginalExtension();
-        $ruta_imagen_factura = 'http://127.0.0.1:8000/storage/db_facturas/' . $product->id . '.' . $imagen_factura->getClientOriginalExtension();
 
-        if ($request->file('foto_factura')) {
+        if ($imagen_factura) {
+            $ruta_imagen_factura = 'http://127.0.0.1:8000/storage/db_facturas/' . $product->id . '.' . $imagen_factura->getClientOriginalExtension();
             $product->update([
                 'ruta_imagen' => $ruta_imagen_producto,
                 'ruta_factura' => $ruta_imagen_factura,
@@ -71,6 +72,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         AbilitiesResolver::autorize('products.update');
+        $imagen_producto = $request->file('foto_producto');
+        $imagen_factura = $request->file('foto_factura');
         $product->update([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
@@ -79,6 +82,20 @@ class ProductController extends Controller
             'user_id' => $request->user_id,
             'category_id' =>  $request->category_id,
         ]);
+
+        $ruta_imagen_producto = 'http://127.0.0.1:8000/storage/db_robots/' . $product->id . '.' . $imagen_producto->getClientOriginalExtension();
+
+        if ($imagen_factura) {
+            $ruta_imagen_factura = 'http://127.0.0.1:8000/storage/db_facturas/' . $product->id . '.' . $imagen_factura->getClientOriginalExtension();
+            $product->update([
+                'ruta_imagen' => $ruta_imagen_producto,
+                'ruta_factura' => $ruta_imagen_factura,
+            ]);
+        } else {
+            $product->update([
+                'ruta_imagen' => $ruta_imagen_producto,
+            ]);
+        }
 
         $this->uploadImage($request->file('foto_producto'), $product->id, Constants::RUTA_FOTO);
         $this->uploadImage($request->file('foto_factura'), $product->id, Constants::RUTA_FACTURA);
@@ -96,6 +113,15 @@ class ProductController extends Controller
     public function getProductsRandom()
     {
         $productos = Product::inRandomOrder()->take(10)->get();
+        return ProductResource::collection($productos);
+    }
+
+    public function search(Request $request)
+    {
+        $searchQuery = $request->input('search_query');
+        $productos = Product::where('codigo', 'like', '%' . $searchQuery . '%')
+            ->orWhere('nombre', 'like', '%' . $searchQuery . '%')
+            ->get();
         return ProductResource::collection($productos);
     }
 }

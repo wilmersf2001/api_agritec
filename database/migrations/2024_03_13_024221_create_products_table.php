@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_products', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo');
             $table->string('nombre');
             $table->string('descripcion');
             $table->decimal('precio', 10, 2);

@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,14 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products-random', [ProductController::class, 'getProductsRandom']);
+Route::get('/products-search', [ProductController::class, 'search']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 Route::get('/categories/{category}/products', [CategoryController::class, 'products']);
+
+Route::get('/departamentos', [LocationController::class, 'getDepartamentos']);
+Route::get('/departamentos/{departamento}/provincias', [LocationController::class, 'getProvinciasByDepartamento']);
+Route::get('/provincias/{provincia}/distritos', [LocationController::class, 'getDistritosByProvincia']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //RUTAS USUARIOS

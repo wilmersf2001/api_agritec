@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_categories', function (Blueprint $table) {
+        Schema::create('tb_provincia', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->string('icono')->nullable();
+            $table->string('nombre', 60);
+            $table->string('ubigeo', 6);
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('tb_departamento');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_categories');
+        Schema::dropIfExists('tb_provincia');
     }
 };

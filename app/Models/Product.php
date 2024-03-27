@@ -12,6 +12,7 @@ class Product extends Model
     protected $table = 'tb_products';
 
     protected $fillable = [
+        'codigo',
         'nombre',
         'descripcion',
         'precio',

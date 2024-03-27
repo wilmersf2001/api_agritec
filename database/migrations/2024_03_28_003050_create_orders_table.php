@@ -17,17 +17,21 @@ return new class extends Migration
             $table->string('customer_name', 50);
             $table->string('customer_ap_paterno', 50);
             $table->string('customer_ap_materno', 50);
+            $table->string('customer_dni', 8);
             $table->string('customer_phone');
             $table->string('customer_address');
             $table->string('customer_email');
             $table->string('customer_note')->nullable();
+            $table->string('tipo_comprobante');
             $table->string('payment_method');
             $table->decimal('subtotal', 8, 2)->default(0);
             $table->decimal('tax', 8, 2)->default(0);
             $table->decimal('total', 8, 2)->default(0);
             $table->enum('status', ['pending', 'processing', 'completed']);
             $table->foreignId('user_id');
+            $table->foreignId('distrito_id');
             $table->foreign('user_id')->references('id')->on('tb_usuario')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('distrito_id')->references('id')->on('tb_distrito')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -16,16 +16,19 @@ class Order extends Model
         'customer_name',
         'customer_ap_paterno',
         'customer_ap_materno',
+        'customer_dni',
         'customer_phone',
         'customer_address',
         'customer_email',
         'customer_note',
+        'tipo_comprobante',
         'payment_method',
         'subtotal',
         'tax',
         'total',
         'status',
-        'user_id'
+        'user_id',
+        'distrito_id'
     ];
 
     public function user()
@@ -36,5 +39,10 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function distrito()
+    {
+        return $this->belongsTo(Distrito::class);
     }
 }
